@@ -1,0 +1,2 @@
+1 * * * * root /usr/local/bin/python /code/manage.py binance_symbols_load >> /var/log/cron.log 2>&1
+30 * * * * root /usr/local/bin/python /code/manage.py fake_symbols_load >> /var/log/cron.log 2>&1

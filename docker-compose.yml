@@ -1,0 +1,47 @@
+version: '3.5'
+networks:
+  internal:
+    driver: bridge
+services:
+  service:
+    build: docker/python
+    image: tbot-python
+#    command: python manage.py runserver 0.0.0.0:8091
+    command: bash -c "while true; do sleep 1; done"
+    volumes:
+      - .:/code
+#    ports:
+#      - "8091:8091"
+    networks:
+      - internal
+    restart: unless-stopped
+    hostname: "${_ENV}_Service"
+  user_data_streams:
+    build: docker/python
+    image: tbot-python
+    command: bash -c "python user_data_streams.py"
+    volumes:
+      - .:/code
+    networks:
+      - internal
+    hostname: "${_ENV}_User_Data_Streams"
+    restart: unless-stopped
+    depends_on:
+      - service
+  rabbitmq:
+    image: rabbitmq:3-management
+#    ports:
+#      - "8080:15672"
+    networks:
+      - internal
+    restart: unless-stopped
+  cron:
+    build: docker/cron
+    volumes:
+      - .:/code
+    networks:
+      - internal
+    restart: unless-stopped
+    hostname: "${_ENV}_Cron"
+    depends_on:
+      - service

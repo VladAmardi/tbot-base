@@ -1,0 +1,3 @@
+container="_service_1"
+deploy_dst="root@10.10.0.1 -p 2224"
+deploy_folder="/code/dca1"

@@ -1,0 +1,38 @@
+version: '3.5'
+volumes:
+  volume_db:
+services:
+  mysql:
+    image: tbot-mysql
+    ports:
+      - "3326:3306"
+    build:
+      context: ./docker/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=CadmumceduckyedjidEphciacCewUjBitbibmybshakGowWols
+      - MYSQL_DATABASE=tbot1
+    volumes:
+      - volume_db:/var/lib/mysql
+    restart: unless-stopped
+    networks:
+      - internal
+  db:
+    image: bscheshir/mysql-proxy:latest
+    expose:
+      - "3306"
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "200k"
+    volumes:
+      - ./docker/mysql-proxy:/opt/mysql-proxy/conf
+    environment:
+      PROXY_DB_PORT: 3306
+      REMOTE_DB_HOST: mysql
+      REMOTE_DB_PORT: 3306
+      LOG_FILE: /dev/stdout
+      LUA_SCRIPT: "/opt/mysql-proxy/conf/log.lua"
+    networks:
+      - internal
+    depends_on:
+      - mysql

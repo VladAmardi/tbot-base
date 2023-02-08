@@ -1,0 +1,26 @@
+version: '3.5'
+services:
+  service:
+    restart: always
+    logging:
+      driver: syslog
+      options:
+        tag: docker-service
+  user_data_streams:
+    restart: always
+    logging:
+      driver: syslog
+      options:
+        tag: docker-user_data_streams
+  rabbitmq:
+    restart: always
+    logging:
+      driver: syslog
+      options:
+        tag: docker-rabbitmq
+  cron:
+    restart: always
+    logging:
+      driver: syslog
+      options:
+        tag: docker-cron

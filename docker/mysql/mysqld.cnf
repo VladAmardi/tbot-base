@@ -1,0 +1,82 @@
+#
+# The Percona Server 5.7 configuration file.
+#
+# One can use all long options that the program supports.
+# Run program with --help to get a list of available options and with
+# --print-defaults to see which it would actually understand and use.
+#
+# For explanations see
+# http://dev.mysql.com/doc/mysql/en/server-system-variables.html
+
+[mysqld]
+user   = mysql
+pid-file = /var/run/mysqld/mysqld.pid
+socket   = /var/lib/mysql/mysql.sock
+port   = 3306
+basedir    = /usr
+datadir    = /var/lib/mysql
+tmpdir   = /tmp
+lc-messages-dir  = /usr/share/mysql
+default-time-zone = "+02:00"
+explicit_defaults_for_timestamp
+
+#log-error    = /var/log/mysql/error.log
+
+# Recommended in standard MySQL setup
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_ALL_TABLES
+
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+slow_query_log=1
+long_query_time=0.1
+character-set-server=utf8mb4
+
+# Basic
+innodb_file_per_table = 1
+thread_pool_size=24
+event_scheduler=on
+query_cache_type=0
+
+# network
+connect_timeout = 600000
+wait_timeout = 28800
+max_connections = 600
+max_allowed_packet = 1073741824
+max_connect_errors = 10000
+net_read_timeout = 600000
+connect_timeout = 600000
+net_write_timeout = 600000
+
+# innodb engine settings
+innodb_buffer_pool_size=256M
+innodb_open_files = 512
+innodb_buffer_pool_instances = 50
+innodb_file_format = barracuda
+innodb_locks_unsafe_for_binlog = 1
+innodb_flush_log_at_trx_commit = 2
+innodb_flush_method = O_DIRECT
+transaction-isolation = READ-COMMITTED
+innodb-data-file-path = ibdata1:10M:autoextend
+innodb-log-file-size = 256M
+innodb_log_buffer_size = 8M
+
+# performance settings
+skip-name-resolve
+skip-external-locking
+skip-innodb_doublewrite
+
+query_cache_size                = 128M
+query_cache_type                = 1
+query_cache_min_res_unit        = 2K
+
+join_buffer_size        = 128M
+read_rnd_buffer_size    = 3M
+table_definition_cache  = 2048
+table_open_cache        = 2048
+thread_cache_size       = 128
+tmp_table_size          = 2048M
+max_heap_table_size     = 2048M
+
+[client]
+default-character-set=utf8mb4
